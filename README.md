@@ -1,203 +1,182 @@
-# 🔐 DAR: Decryptability Acceleration Rule ((Mayora Rule))
+# 🔐 DAR: Decryptability Acceleration Rule (Mayora Rule)
 
-Decryptability Acceleration Rule (DAR) proposes a heuristic for modeling and improving decryption efficiency by relating entropy, encryption complexity, and tunable parameters.
+[![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)  
+[![Python Version](https://img.shields.io/badge/python-3.9%2B-blue)](https://www.python.org/)  
+[![Contributions Welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg)]()
 
-## Overview
-
-The Decryptability Acceleration Rule (DAR) proposes a new heuristic for modeling and potentially improving decryption efficiency. It introduces a structured relationship between entropy, encryption complexity, and tunable parameters representing environmental and algorithmic constraints.
-
-The core equation is:
-
-
-![DAR Formula](images/dar_formula.png)
-
-
-
-Where:
-
-- **D** = Decryptability factor (higher means faster/easier decryption)  
-- **K** = Scaling constant (implementation- or environment-specific)  
-- **E** = Encryption complexity (computational difficulty of the algorithm, e.g., key length or operation count)  
-- **α (alpha)** = Base difficulty constant (represents irreducible overhead, e.g., key scheduling, algorithm setup)  
-- **β (beta)** = Entropy sensitivity constant (adjusts how strongly entropy affects difficulty)  
-- **H(T)** = Entropy of target (Shannon entropy or statistical measure of uncertainty in key/text space)  
-- **T** = Target distribution (keys, ciphertexts, or passwords under study)  
+> **DAR** provides a heuristic for modeling and improving decryption efficiency by relating **entropy**, **encryption complexity**, and **tunable parameters**.
 
 ---
 
-## Rationale & Theory
+## 📖 Overview
 
-- **E (Encryption Complexity):** Represents the inherent difficulty of the cipher (e.g., AES-256 has higher *E* than AES-128). It reflects the upper-bound work factor without shortcuts.  
-- **Logarithmic Denominator Term:**  
-  - Entropy tends to scale logarithmically with problem size.  
-  - Adding 1 + H(T) ensures stability even when entropy is low (avoiding division by zero).  
-  - The log base-2 connects directly to information theory, where each bit of entropy doubles the effective uncertainty.  
-- **α + β log₂(1 + H(T)):**  
-  - α ensures a baseline hardness that cannot be bypassed.  
-  - β allows tuning: on CPUs vs. GPUs vs. quantum systems, entropy might affect difficulty differently.  
-- **Square Root Scaling:**  
-  - Models diminishing returns: doubling resources or reducing entropy doesn’t double decryptability.  
-  - Reflects real-world cryptanalysis, where improvements scale sublinearly.
+DAR introduces a structured relationship between:
 
----
+- **Entropy (H(T))** – uncertainty in the target  
+- **Encryption complexity (E)** – computational work factor  
+- **Tunable parameters (α, β, K)** – environment and algorithm-specific constants  
 
-## Correctness & Security Considerations
+<details>
+<summary>**Core Equation** 🔽</summary>
 
-- The equation is heuristic—it models expected effort but does not alter cryptographic correctness.  
-- Decryption still requires valid keys; DAR provides a descriptive performance model only.  
-- Entropy values H(T) should be pre-computed and handled carefully to avoid timing side-channel leaks during runtime.
+\[
+D = K \cdot \sqrt{\frac{E}{\alpha + \beta \cdot \log_2(1 + H(T))}}
+\]
 
----
-
-## Empirical Validation (First Results)
-
-- Initial benchmarking across AES, ChaCha20, and RSA on CPU environments.  
-- Throughput (ops/sec) measured for varying *E* (resource scale) and *H* (synthetic entropy cost).  
-
-**Observed Trends:**
-
-| Algorithm | Behavior |
-| --------- | -------- |
-| AES       | Strong scaling with entropy, DAR-like sublinear gains observed. |
-| ChaCha20  | Relatively stable throughput, less entropy-sensitive. |
-| RSA       | Variable, but acceleration patterns matched DAR predictions. |
+| Symbol | Meaning |
+|--------|---------|
+| **D** | Decryptability factor (higher → faster/easier decryption) |
+| **K** | Scaling constant (environment-specific) |
+| **E** | Encryption complexity (e.g., key length, operation count) |
+| **α** | Base difficulty constant (irreducible overhead) |
+| **β** | Entropy sensitivity constant |
+| **H(T)** | Entropy of target (Shannon or statistical measure) |
+| **T** | Target distribution (keys, ciphertexts, passwords) |
+</details>
 
 ---
 
-## Fitted Parameters (from calibration)
+## 🧠 Rationale & Theory
 
-| Parameter | Value  |
-| --------- | ------ |
-| α (alpha) | 0.822  |
-| β (beta)  | 0.0    |
-| K         | 0.451  |
-| Loss (fit error) | ≈ 0.39 |
+<details>
+<summary>Click to expand</summary>
+
+- **E (Encryption Complexity)**: Upper-bound work factor of the cipher.  
+- **Logarithmic Denominator**: Models entropy scaling; `1 + H(T)` avoids division by zero.  
+- **α + β log₂(1 + H(T))**: Baseline hardness + tunable entropy influence.  
+- **Square Root Scaling**: Models diminishing returns (doubling resources ≠ doubling decryptability).  
+
+</details>
 
 ---
 
-## Example Prediction
+## 🔬 Empirical Validation
 
-bash
+Benchmarked across **AES, ChaCha20, RSA** (CPU environments):
+
+| Algorithm | Observed Behavior |
+|-----------|-----------------|
+| AES       | Strong scaling with entropy, DAR-like sublinear gains |
+| ChaCha20  | Stable throughput, less entropy-sensitive |
+| RSA       | Variable; acceleration patterns match DAR predictions |
+
+**Fitted Parameters:**
+
+| Parameter | Value |
+|-----------|-------|
+| α (alpha) | 0.822 |
+| β (beta)  | 0.0   |
+| K         | 0.451 |
+| Loss      | ≈ 0.39 |
+
+**Example Prediction:**
+
+```bash
 python predict.py 4 24
-D(E=4, H=24) = 1.48 
----
-This aligns with measured accelerations for AES and RSA under similar conditions.
+# Output: D(E=4, H=24) = 1.48
+<details> <summary>📈 Diagram: Decryptability vs Entropy</summary>
 
-Scope & Applicability
-Cipher Classes: Block ciphers (AES, DES variants), stream ciphers (ChaCha20, RC4), public key systems (RSA, ECC) — with adjusted interpretation of E.
+Example: Decryptability factor (D) grows sublinearly with entropy and complexity.
 
-Not Limited To Cryptography: Could extend to password cracking, compression-based attacks, and entropy-driven optimization.
+</details>
+⚛️ Quantum Decryption Considerations
+<details> <summary>Click to expand</summary>
+DAR is validated for classical computing.
 
-Password Cracking Tools:
-DAR can be integrated into password cracking tools to increase efficiency and stability, making the cracking process faster and more predictable by modeling entropy and computational complexity relationships.
+Quantum algorithms (Shor, Grover) may require parameter recalibration.
 
-Tunable Parameters:
+Logarithmic/square root scaling may not capture quantum behavior.
 
-α: Irreducible costs (setup, I/O, memory latency).
+DAR is a starting framework; direct application in quantum settings is not recommended.
 
-β: Entropy’s influence strength.
+</details>
+⚠️ Limitations
+Heuristic only; not a cryptographic security bound.
 
-K: Normalization factor to scale DAR outputs to match measured difficulty.
-
-Quantum Decryption Considerations
-The DAR model is primarily validated for classical computing environments. Its applicability to quantum-level decryption requires caution:
-
-Quantum algorithms (e.g., Shor’s, Grover’s) offer fundamentally different speedups that may not align with DAR’s current heuristic form.
-
-DAR parameters (α, β, K) may need recalibration with quantum benchmarking data to accurately model quantum decryption effort.
-
-Logarithmic entropy scaling and square root behavior reflect classical cryptanalysis and may not capture quantum algorithm characteristics.
-
-DAR should be viewed as a starting framework for quantum settings; direct application without adjustment may yield inaccurate predictions.
-
-Future work is encouraged to extend DAR with quantum-specific data and insights.
-
-Limitations
-DAR is heuristic and not a cryptographic security bound.
-
-Constants α, β, K require empirical calibration per environment.
+Constants α, β, K require empirical calibration.
 
 Cannot replace cryptographic proofs or justify weak keys.
 
-Ethical Use
-DAR should be used in controlled, ethical, and legal contexts such as:
+✅ Ethical Use
+DAR should only be used in controlled, legal contexts:
 
 Academic research
 
-Benchmarking cipher resistance
+Cipher benchmarking
 
 Password strength evaluation
 
-It must not be used for malicious decryption or breaking encryption illegally.
+❌ Do not use for malicious decryption.
 
-Installation
-Clone the repository:
-
+💻 Installation
 bash
-Copy code
+Copy
+Edit
 git clone https://github.com/yourusername/DAR.git
 cd DAR
-(Optional) Create and activate a virtual environment:
+(Optional) Virtual environment:
 
 bash
-Copy code
+Copy
+Edit
 python -m venv venv
-source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+source venv/bin/activate      # Windows: venv\Scripts\activate
 Install dependencies:
 
 bash
-Copy code
+Copy
+Edit
 pip install -r requirements.txt
-Usage
-Fit DAR parameters
+🚀 Usage
+Fit DAR Parameters
 bash
-Copy code
+Copy
+Edit
 python fit_dar.py
-Fits parameters α, β, and K to the empirical dataset (data/aes_rsa_chacha.csv).
+Fits α, β, K to data/aes_rsa_chacha.csv
 
-Saves fitted parameters to fitted_params.json.
+Saves parameters to fitted_params.json
 
 Predict Decryptability
 bash
-Copy code
+Copy
+Edit
 python predict.py <E> <H>
-Where <E> is encryption complexity, and <H> is entropy of the target.
-
 Example:
 
 bash
-Copy code
+Copy
+Edit
 python predict.py 4 24
-Contribution
-Contributions are welcome! To contribute:
+<details> <summary>📊 Example Output</summary>
+mathematica
+Copy
+Edit
+Target: AES-256
+E = 4, H = 24
+D(E=4, H=24) = 1.48
+</details>
+🤝 Contribution
+Fork the repository
 
-Fork the repository.
+Create a branch (git checkout -b feature-name)
 
-Create a feature branch (git checkout -b feature-name).
+Commit changes (git commit -m "Add feature")
 
-Commit your changes (git commit -m "Add feature").
+Push (git push origin feature-name)
 
-Push to the branch (git push origin feature-name).
+Open a Pull Request
 
-Open a Pull Request describing your changes.
+Guidelines:
 
-Please ensure contributions are:
+Document clearly
 
-Documented with clear explanations.
+Test features
 
-Tested if applicable.
+Respect cryptographic ethics
 
-Respect ethical guidelines regarding cryptographic research.
-
-Citation
-If referencing DAR:
-
+📚 Citation
 Fadel A. Othman (2025). Decryptability Acceleration Rule (DAR): A Heuristic for Modeling Decryption Efficiency. Preprint.
 
-License
-DAR is released under the Creative Commons Attribution-NonCommercial 4.0 (CC BY-NC 4.0) license.
-
-
-
-
-
+📜 License
+Released under Creative Commons Attribution-NonCommercial 4.0 (CC BY-NC 4.0).
