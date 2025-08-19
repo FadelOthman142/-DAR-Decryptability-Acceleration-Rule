@@ -100,7 +100,10 @@ DAR should only be applied in **controlled, ethical, and legal contexts**, such 
 ❌ **Must not** be used for malicious decryption or illegal activity.  
 
 ---
+If referencing DAR in academic, research, or technical work, please cite:
 
+Fadel A. Othman (2025). Decryptability Acceleration Rule (DAR): A Heuristic for Modeling Decryption Efficiency. Preprint.
+---
 ## 📄 License
 
 This project is licensed under the **Creative Commons Attribution-NonCommercial 4.0 International Public License**.  
