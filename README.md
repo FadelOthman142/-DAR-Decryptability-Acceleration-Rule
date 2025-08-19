@@ -74,6 +74,7 @@ Benchmarked across **AES, ChaCha20, RSA** (CPU environments):
 ```bash
 python predict.py 4 24
 # Output: D(E=4, H=24) = 1.48
+```
 <details> <summary>📈 Diagram: Decryptability vs Entropy</summary>
 
 Example: Decryptability factor (D) grows sublinearly with entropy and complexity.
@@ -180,3 +181,4 @@ Fadel A. Othman (2025). Decryptability Acceleration Rule (DAR): A Heuristic for 
 
 📜 License
 Released under Creative Commons Attribution-NonCommercial 4.0 (CC BY-NC 4.0).
+
