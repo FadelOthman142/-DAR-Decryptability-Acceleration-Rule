@@ -1,4 +1,4 @@
-# 🔐 Decryptability Acceleration Rule (DAR)
+# 🔐 Decryptability Acceleration Rule (DAR) - (Mayora Rule)
 
 DAR is a **novel heuristic model** for estimating the decryptability of cryptographic algorithms and password spaces.  
 It balances **entropy (E)** and **hardware performance (H)** into a compact equation:
