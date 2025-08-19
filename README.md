@@ -77,9 +77,10 @@ Where:
 
 ## Example Prediction
 
-```bash
+bash
 python predict.py 4 24
-D(E=4, H=24) = 1.48
+D(E=4, H=24) = 1.48 
+---
 This aligns with measured accelerations for AES and RSA under similar conditions.
 
 Scope & Applicability
@@ -195,6 +196,7 @@ Fadel A. Othman (2025). Decryptability Acceleration Rule (DAR): A Heuristic for 
 
 License
 DAR is released under the Creative Commons Attribution-NonCommercial 4.0 (CC BY-NC 4.0) license.
+
 
 
 
