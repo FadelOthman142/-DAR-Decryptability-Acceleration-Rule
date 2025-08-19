@@ -8,10 +8,10 @@ The Decryptability Acceleration Rule (DAR) proposes a new heuristic for modeling
 
 The core equation is:
 
-\[
+
 ![DAR Formula](images/dar_formula.png)
 
-\]
+
 
 Where:
 
@@ -195,6 +195,7 @@ Fadel A. Othman (2025). Decryptability Acceleration Rule (DAR): A Heuristic for 
 
 License
 DAR is released under the Creative Commons Attribution-NonCommercial 4.0 (CC BY-NC 4.0) license.
+
 
 
 
