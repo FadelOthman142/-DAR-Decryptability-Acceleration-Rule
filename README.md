@@ -4,7 +4,9 @@ DAR is a **novel heuristic model** for estimating the decryptability of cryptogr
 It balances **entropy (E)** and **hardware performance (H)** into a compact equation:
 
 ```
-D(E, H) = α + β * (log(E) / sqrt(H)) * K
+<div align="center">
+  <img src="images/dar_formula.png" alt="DAR Formula" width="350"/>
+</div>
 ```
 
 Where:  
